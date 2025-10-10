@@ -4,6 +4,11 @@ const email = document.querySelector("#email");
 const password = document.querySelector("#password");
 const confirmPassword = document.querySelector("#confirmPassword");
 
+function showSuccess(input) {
+  const formGroup = input.parentElement;
+  formGroup.className = "form-group success";
+}
+
 function showError(input, message) {
   const formGroup = input.parentElement;
   formGroup.className = "form-group error";
@@ -20,7 +25,7 @@ function checkRequried(inputArray) {
   inputArray.forEach((input) => {
     if (input.value.trim() === "") {
       showError(input, `${formatFeildName(input)} is required`);
-      isValid = !isValid;
+      isValid = false;
     } else {
       showSuccess(input);
     }
