@@ -13,7 +13,7 @@ function showError(input, message) {
   const formGroup = input.parentElement;
   formGroup.className = "form-group error";
   const small = formGroup.querySelector("small");
-  small.innterText = message;
+  small.innerText = message;
 }
 
 function formatFeildName(input) {
