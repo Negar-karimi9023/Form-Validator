@@ -34,13 +34,13 @@ function checkRequried(inputArray) {
 }
 
 function checkLength(input, min, max) {
-  if (input.value < min) {
+  if (input.value.length < min) {
     showError(
       input,
       `${formatFeildName(input)} must be at least ${min} charecters `
     );
     return false;
-  } else if (input.value > max) {
+  } else if (input.value.length > max) {
     showError(
       input,
       `${formatFeildName(input)} must be less than ${max} charecters `
@@ -48,6 +48,26 @@ function checkLength(input, min, max) {
     return false;
   } else {
     showSuccess(input);
+    return true;
+  }
+}
+
+function checkEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (emailRegex.test(email.value.trim())) {
+    showSuccess(email);
+    return true;
+  } else {
+    showError(email, "Email is not true");
+    return false;
+  }
+}
+
+function checkPasswordsMatches(input1, input2) {
+  if (input1.value !== input2.value) {
+    showError(input2, "password do not match");
+    return false;
+  } else {
     return true;
   }
 }
@@ -61,10 +81,23 @@ form.addEventListener("submit", function (e) {
     confirmPassword,
   ]);
   let isFormValid = isRequiredValid;
+  let isUserNameValid, isEmailValid, isPasswordValid, isPasswordsValid;
   if (isRequiredValid) {
-    const isUserNameValid = checkLength(username, 3, 15);
-    const isEmailValid = checkEmail(email);
-    const isPasswordValid = checkLength(password, 6, 25);
-    const isPasswordsValid = checkPasswordsMatches(password, confirmPassword);
+    isUserNameValid = checkLength(username, 3, 15);
+
+    isEmailValid = checkEmail(email);
+    isPasswordValid = checkLength(password, 6, 25);
+    isPasswordsValid = checkPasswordsMatches(password, confirmPassword);
+
+    isFormValid =
+      isUserNameValid && isEmailValid && isPasswordValid && isPasswordsValid;
+    if (isFormValid) {
+      alert("registration successful");
+      console.log("registration successful");
+      form.reset();
+      document
+        .querySelectorAll(".form-group")
+        .forEach((element) => (element.className = "form-group"));
+    }
   }
 });
